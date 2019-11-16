@@ -1,0 +1,43 @@
+.slider {
+  position: relative;
+  height: 100%;
+}
+
+.slider__embla-wrapper {
+  height: 100%;
+}
+
+.slider__container {
+  display: flex;
+  height: 100%;
+}
+
+.slider__slide {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex: 0 0 100%;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.slider__breadcrubs {
+  display: flex;
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.slider__breadcrub {
+  border: 1px solid black;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  margin: 2px
+}
+
+.slider__breadcrub--selected {
+  background-color: #755454;
+}
