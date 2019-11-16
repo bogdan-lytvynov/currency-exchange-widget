@@ -1,4 +1,5 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const path = require('path')
 
 module.exports = {
   entry: './src/index.js',
@@ -16,6 +17,11 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       }
     ]
+  },
+  resolve: {
+    alias: {
+      reacto: path.resolve(__dirname, 'node_modules/react')
+    }
   },
   plugins: [
     new HtmlWebPackPlugin({

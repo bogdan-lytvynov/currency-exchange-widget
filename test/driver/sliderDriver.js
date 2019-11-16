@@ -7,7 +7,15 @@ module.exports = sliderElement => {
   //const getSelectedBreadcrumb = () => sliderElement.querySelectorAll('.slider__breadcrub--selected')
   
   return {
-    getCurrentSlideElement: () => sliderElement.querySelector('.slider__slide.is-selected'),
+    get amountOfSlides() {
+      return sliderElement.querySelectorAll('.slider__slide').length
+    },
+    get amountOfBreadcrumbs() {
+      return sliderElement.querySelectorAll('.slider__breadcrub').length
+    },
+    get currentSlideElement() {
+      return sliderElement.querySelector('.slider__slide.is-selected')
+    },
     selectNextSlide: () => {
       const selectedBreadcrumbElement = sliderElement.querySelector('.slider__breadcrub--selected')
       const nextBreadcrumbElement = selectedBreadcrumbElement.nextSibling || first_(getBreadcrubs())
