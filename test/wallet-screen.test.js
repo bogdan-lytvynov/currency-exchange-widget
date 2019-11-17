@@ -1,7 +1,7 @@
 require('./prepareEnvironment')
 const render = require('../src/render.jsx')
 const createWalletScreenDriver = require('./driver/walletScreenDriver')
-const eventually = require('wix-eventually')
+const eventually = require('./eventually')
 const walletApiTestkit = require('./walletApiTestkit')
 const {currency} = require('./constants')
 
@@ -9,14 +9,14 @@ const setup = async ({wallets}) => {
   walletApiTestkit.createWallets(wallets)
   render(document.getElementById('mount-point'))
 
-  const driver = createWalletScreenDriver(document.querySelector('[data-hook=wallet]'))
+  const driver = createWalletScreenDriver(document.getElementById('mount-point'))
   await driver.waitForUiToLoad()
 
   return driver
 }
 
 describe('main screen', () => {
-  describe('slider with currencies', () => {
+  describe.only('slider with currencies', () => {
     it('should show right amount of wallets', async () => {
       const walletScreenDriver = await setup({
         wallets: [
@@ -58,6 +58,7 @@ describe('main screen', () => {
         expect(walletScreenDriver.balance).toBe('1')
       })
     })
+
     it('should show history', async () => {
       const transactionDate = new Date(746841601000)
       const walletScreenDriver = await setup({
@@ -98,7 +99,7 @@ describe('main screen', () => {
       ])
     })
 
-    it('should change history when switch to another wallet', async () => {
+    it('should change history when switching to another wallet', async () => {
       const transactionDate = new Date(746841601000)
       const walletScreenDriver = await setup({
         wallets: [

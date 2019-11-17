@@ -1,5 +1,5 @@
 const React = require('react')
-const getCurrencySymbol = require('./getCurrencySymbol')
+const getCurrencySymbol = require('../../getCurrencySymbol')
 module.exports = ({fromCurrency, amount, timestamp, walletCurrency}) => (
   <div className="history__item" data-type="exchange">
     <div className="history__item-description">{`Exchanged from ${fromCurrency}`}</div>

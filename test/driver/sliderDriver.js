@@ -1,4 +1,4 @@
-//const last_ = require('lodash/last')
+'use strict';
 const first_ = require('lodash/first')
 const simulateEvent = require('./simulateEvent')
 
@@ -16,11 +16,10 @@ module.exports = sliderElement => {
     get currentSlideElement() {
       return sliderElement.querySelector('.slider__slide.is-selected')
     },
-    selectNextSlide: () => {
+    selectNextSlide() {
       const selectedBreadcrumbElement = sliderElement.querySelector('.slider__breadcrub--selected')
       const nextBreadcrumbElement = selectedBreadcrumbElement.nextSibling || first_(getBreadcrubs())
       simulateEvent(nextBreadcrumbElement, 'click')
     }
-
   }
 }

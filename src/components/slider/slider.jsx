@@ -3,12 +3,19 @@ const React = require('react')
 const {useState, useEffect} = React
 const EmblaCarouselReact = require('embla-carousel-react').default
 const range_ = require('lodash/range')
+const noop_ = require('lodash/noop')
 const classnames = require('classnames')
 require('./slider.css')
 
-const EmblaCarouselComponent = ({loop, dataHook, children, onChangeSlide}) => {
+const EmblaCarouselComponent = ({
+  loop,
+  dataHook,
+  children,
+  onChangeSlide=noop_,
+  startIndex=0
+}) => {
   const [embla, setEmbla] = useState(null)
-  const [selectedSlideIndex, setSelectedSlideIndex] = useState(0)
+  const [selectedSlideIndex, setSelectedSlideIndex] = useState(startIndex)
 
   useEffect(() => {
     if (embla) {
@@ -28,7 +35,7 @@ const EmblaCarouselComponent = ({loop, dataHook, children, onChangeSlide}) => {
       <>
         <EmblaCarouselReact
         emblaRef={setEmbla}
-        options={{ loop }}
+        options={{ loop, startIndex }}
         className='slider__embla-wrapper'
           >
           <div className='slider__container'>

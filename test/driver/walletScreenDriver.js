@@ -1,34 +1,46 @@
 'use strict';
 const ReactDOM = require('react-dom')
+const eventually = require('../eventually')
 const createSliderDriver = require('./sliderDriver')
 const createHistoryDriver = require('./historyDriver')
+const simulateEvent = require('./simulateEvent')
 
 module.exports = walletElement => {
-  const sliderDriver = createSliderDriver(walletElement.querySelector('[data-hook="wallets-slider"]'))
+  const sliderDriver = () => createSliderDriver(walletElement.querySelector('[data-hook="wallets-slider"]'))
 
   return {
     async waitForUiToLoad() {
-      await new Promise(r => setTimeout(r, 100))
+      await eventually(() => {
+        if (!document.querySelector('[data-hook=wallet]')) {
+          throw 'Wallet has not been found'
+        }
+      })
+      await new Promise(r => setTimeout(r, 1000))
     },
 
     get amountOfWallets() {
-      return sliderDriver.amountOfSlides
+      return sliderDriver().amountOfSlides
     },
 
     get amountOfBreadcrumbs() {
-      return sliderDriver.amountOfBreadcrumbs
+      return sliderDriver().amountOfBreadcrumbs
     },
 
     get balance() {
-      return sliderDriver.currentSlideElement.querySelector('[data-hook="balance"]').textContent
+      return sliderDriver().currentSlideElement.querySelector('[data-hook="balance"]').textContent
     },
 
     get currency() {
-      return sliderDriver.currentSlideElement.querySelector('[data-hook="currency"]').textContent
+      return sliderDriver().currentSlideElement.querySelector('[data-hook="currency"]').textContent
     },
 
     selectNextWallet() {
-      sliderDriver.selectNextSlide()
+      sliderDriver().selectNextSlide()
+    },
+
+    clickExchangeButton() {
+      const excahngeButton = walletElement.querySelector('[data-hook="exchange-button"]')
+      simulateEvent(excahngeButton, 'click')
     },
 
     get history() {

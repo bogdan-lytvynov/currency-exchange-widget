@@ -3,6 +3,9 @@ const path = require('path')
 
 module.exports = {
   entry: './src/index.js',
+  output: {
+    publicPath: '/'
+  },
   module: {
     rules: [
       {
@@ -28,5 +31,8 @@ module.exports = {
       template: "./src/index.html",
       filename: "./index.html"
     })
-  ]
+  ],
+  devServer: {
+    historyApiFallback: true
+  }
 };
