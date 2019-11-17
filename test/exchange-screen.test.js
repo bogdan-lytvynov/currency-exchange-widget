@@ -5,6 +5,7 @@ const createExchangeScreenDriver = require('./driver/exchangeScreenDriver')
 const eventually = require('./eventually')
 const walletApiTestkit = require('./walletApiTestkit')
 const {currency} = require('./constants')
+const createExchangeRatesTestkit = require('./exchangeRatesTestkit')
 
 const setupWalletAndClickExchange = async ({wallets}) => {
   walletApiTestkit.createWallets(wallets)
@@ -21,8 +22,17 @@ const setupWalletAndClickExchange = async ({wallets}) => {
   return {exchangeScreenDriver, walletDriver}
 }
 
-jest.useRealTimers()
 describe('Exchange screen', () => {
+  const exchangeRatesTestkit = createExchangeRatesTestkit()
+
+  beforeAll(() => {
+    exchangeRatesTestkit.startIntercepting()
+  })
+  
+  afterAll(() => {
+    exchangeRatesTestkit.stopIntercepting()
+  })
+
   it.skip('should open excahnge screen for the currency of the curreny wallet', async () => {
     const exchangeScreenDriver = await setupWalletAndClickExchange({
       wallets: [
@@ -68,7 +78,7 @@ describe('Exchange screen', () => {
     expect(walletDriver.history.getRecords()).toEqual([])
   })
 
-  it('should show default pair of wallets: from select wallet to next wallet from the wallet list', async () => {
+  it('should show default pair of wallets: from selected wallet to next wallet from the wallet list', async () => {
     const {exchangeScreenDriver} = await setupWalletAndClickExchange({
       wallets: [
         {
@@ -97,4 +107,5 @@ describe('Exchange screen', () => {
       expect(exchangeScreenDriver.toWallet.balance).toBe('You have €1')
     })
   })
+
 })

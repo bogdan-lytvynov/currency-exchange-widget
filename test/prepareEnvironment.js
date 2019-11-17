@@ -1,6 +1,7 @@
 'use strict'
 
 const { unmountComponentAtNode } = require('react-dom')
+global.fetch = require('node-fetch')
 
 beforeEach(() => {
   const newBody = document.createElement('body')

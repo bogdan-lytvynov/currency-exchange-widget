@@ -1,5 +1,5 @@
 const React = require('react')
-const {useContext} = React
+const {useContext, useEffect} = React
 const { useHistory, useParams } = require('react-router-dom')
 const findIndex_ = require('lodash/findIndex')
 const ExchangeWalletSlider = require('./components/exchangeWalletSlider/exchangeWalletSlider.jsx')
@@ -16,6 +16,10 @@ module.exports = () => {
   const fromWalletIndex = findIndex_(wallets, ['currency', currency])
   const toWalletIndex = fromWalletIndex + 1
   const hasWallets = wallets.length > 0
+
+  //useEffect(() => {
+  //  fetch('https://api.exchangeratesapi.io/latest?symbols=USD,GBP,EUR&base=USD').then(resp => resp.json()).then(console.log)
+  //})
 
   return <div data-hook="exchange-screen">
     <button data-hook="cancel-button" onClick={() => history.push('/')}>Cancel</button>
