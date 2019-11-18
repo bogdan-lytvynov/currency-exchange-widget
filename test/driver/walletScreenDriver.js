@@ -15,7 +15,6 @@ module.exports = walletElement => {
           throw 'Wallet has not been found'
         }
       })
-      await new Promise(r => setTimeout(r, 1000))
     },
 
     get amountOfWallets() {

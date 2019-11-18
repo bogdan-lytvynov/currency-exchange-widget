@@ -20,8 +20,8 @@ module.exports = () => {
     },
   }
   return {
-    setRates(_rates) {
-      rates = _rates
+    setRatesForBase(base, _rates) {
+      rates[base] = _rates
     },
     startIntercepting() {
       nock('https://api.exchangeratesapi.io')

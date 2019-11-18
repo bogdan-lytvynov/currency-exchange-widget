@@ -36,6 +36,10 @@ module.exports = exchangeScreenElement => {
     get toWallet() {
       const toWalletElement = exchangeScreenElement.querySelector('[data-hook="to-wallet"]')
       return exchangeWalletDriver(toWalletElement)
+    },
+
+    get exchangeRate() {
+      return exchangeScreenElement.querySelector('[data-hook="exchange-rate"]').textContent
     }
   }
 }

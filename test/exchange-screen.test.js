@@ -33,25 +33,6 @@ describe('Exchange screen', () => {
     exchangeRatesTestkit.stopIntercepting()
   })
 
-  it.skip('should open excahnge screen for the currency of the curreny wallet', async () => {
-    const exchangeScreenDriver = await setupWalletAndClickExchange({
-      wallets: [
-        {
-          balance: 10,
-          currency: 'EUR',
-          history: []
-        },
-        {
-          balance: 1,
-          currency: 'EUR',
-          history: []
-        }
-      ]
-    })
-
-    expect(exchangeScreenDriver.from.currency).toBe('EUR')
-  })
-
   it('should return back to wallet screen when click on cancel button', async () => {
     const {exchangeScreenDriver, walletDriver} = await setupWalletAndClickExchange({
       wallets: [
@@ -106,6 +87,49 @@ describe('Exchange screen', () => {
       expect(exchangeScreenDriver.toWallet.currency).toBe('EUR')
       expect(exchangeScreenDriver.toWallet.balance).toBe('You have €1')
     })
+  })
+
+  it.only('should show exchange rate for choosed pair of wallets', async () => {
+    //jest.useFakeTimers()
+    exchangeRatesTestkit.setRatesForBase('USD', {
+      'EUR': 0.91321,
+      'GBP': 0.7
+    })
+
+    const {exchangeScreenDriver} = await setupWalletAndClickExchange({
+      wallets: [
+        {
+          balance: 10,
+          currency: 'USD',
+          history: []
+        },
+        {
+          balance: 1,
+          currency: 'EUR',
+          history: []
+        },
+        {
+          balance: 15,
+          currency: 'GBP',
+          history: []
+        }
+      ]
+    })
+
+    await eventually(() => 
+      expect(exchangeScreenDriver.exchangeRate).toBe('$1=€0.9132')
+    )
+
+    exchangeRatesTestkit.setRatesForBase('USD', {
+      'EUR': 0.53425,
+      'GBP': 0.7
+    })
+
+    //jest.advanceTimersByTime(11000)
+
+    await eventually(() => 
+      expect(exchangeScreenDriver.exchangeRate).toBe('$1=€0.5343')
+    )
   })
 
 })
