@@ -1,13 +1,12 @@
 const React = require('react')
-const {useContext, useEffect} = React
+const {useSelector, useDispatch} = require('react-redux')
 const {
   storeContext,
-  selectors: {getAllWallets, getExchangeRateForPair}
+  selectors: {getAllWallets}
 } = require('./store')
 
 module.exports = ({children}) => {
-  const {state, dispatch} = useContext(storeContext)
-  const wallets = getAllWallets(state)
+  const wallets = useSelector(getAllWallets)
   const hasWallets = wallets.length > 0
 
   return hasWallets ? <> {children} </> : null

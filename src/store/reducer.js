@@ -1,13 +1,21 @@
-const {LOAD_WALLETS, CHANGE_WALLET, UPDATE_EXCHANGE_RATES} = require('../actionTypes')
+const {
+  LOAD_WALLETS,
+  CHANGE_WALLET,
+  UPDATE_EXCHANGE_RATES,
+  CHANGE_FROM_WALLET_INDEX,
+  CHANGE_TO_WALLET_INDEX
+} = require('../actionTypes')
 const merge_ = require('lodash/merge')
 
 const initialState = {
   wallets: [],
   currentWalletIndex: 0,
-  exchangeRates: {}
+  exchangeRates: {},
+  fromWalletIndex: 0,
+  toWalletIndex: 1
 }
 
-const reducer = (state, action) => {
+const reducer = (state=initialState, action) => {
   switch(action.type) {
     case LOAD_WALLETS:
       return merge_({}, state, {wallets: action.wallets})
@@ -15,8 +23,13 @@ const reducer = (state, action) => {
       return merge_({}, state, {currentWalletIndex: action.newWalletIndex})
     case UPDATE_EXCHANGE_RATES:
       return merge_({}, state, {exchangeRates: action.rates})
+    case CHANGE_FROM_WALLET_INDEX:
+      return merge_({}, state, {fromWalletIndex: action.fromWalletIndex})
+    case CHANGE_TO_WALLET_INDEX:
+      return merge_({}, state, {toWalletIndex: action.toWalletIndex})
+    default:
+      return initialState
   }
 }
 
-reducer.initialState = initialState
 module.exports = reducer

@@ -1,10 +1,12 @@
 const React = require('react')
 const {useEffect, useContext} = React
+const {useSelector, useDispatch} = require('react-redux')
 const {
-  BrowserRouter,
   Route,
-  Switch
+  Switch,
+  Redirect
 } = require('react-router-dom');
+const { Router } = require('react-router')
 const WalletsScreen = require('./walletsScreen.jsx')
 const ExchangeScreen = require('./exchangeScreen.jsx')
 const {
@@ -13,23 +15,24 @@ const {
 } = require('./store')
 const {loadWallets} = require('./actions')
 
-module.exports = () => {
-  const {state, dispatch} = useContext(storeContext)
+module.exports = ({history}) => {
+  const wallets = useSelector(getAllWallets)
+  const dispatch = useDispatch()
   useEffect(() => {
-    const walltesAreNotLoaded = getAllWallets(state).length === 0
-    if (walltesAreNotLoaded) {
+    const walletsAreNotLoaded = wallets.length === 0
+    if (walletsAreNotLoaded) {
       loadWallets(dispatch)
     }
   })
-  return <BrowserRouter> 
+  return <Router history={history}> 
     <Switch>
       <Route exact path="/">
         <WalletsScreen/>
       </Route>
   
-      <Route path="/exchange/:currency">
+      <Route path="/exchange/:from/:to?">
         <ExchangeScreen/>
       </Route>
     </Switch>
-  </BrowserRouter>
+  </Router>
 }

@@ -1,8 +1,8 @@
 const nock = require('nock')
+const cloneDeep_ = require('lodash/cloneDeep')
 const querystring = require('querystring');
 module.exports = () => {
-
-  let rates = {
+  const defaultRates =  {
     USD: {
       EUR: 1,
       GBP: 1,
@@ -19,6 +19,9 @@ module.exports = () => {
       USD: 1
     },
   }
+  
+  let rates = cloneDeep_(defaultRates)
+
   return {
     setRatesForBase(base, _rates) {
       rates[base] = _rates
@@ -34,6 +37,10 @@ module.exports = () => {
     },
     stopInterecprint() {
       nock.clearAll()
+    },
+
+    reset() {
+      rates = cloneDeep_(defaultRates)
     }
   }
 }

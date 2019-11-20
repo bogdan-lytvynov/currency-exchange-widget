@@ -1,5 +1,6 @@
 const React = require('react')
 const {useContext} = React
+const {useSelector, useDispatch} = require('react-redux')
 const { useHistory } = require('react-router-dom')
 const {Slider, Slide} = require('./components/slider')
 const History = require('./components/history/history.jsx')
@@ -10,11 +11,12 @@ const {
 const {changeWallet} = require('./actions')
 
 module.exports = () => {
-  const {state, dispatch} = useContext(storeContext)
-  const wallets = getAllWallets(state)
+  const wallets = useSelector(getAllWallets)
+  const walletCurrency = useSelector(getWalletCurrency)
   const hasWallets = wallets.length > 0
-  const walletCurrency = getWalletCurrency(state)
   const history = useHistory()
+  const walletHistory = useSelector(getWalletHistory)
+  const dispatch = useDispatch()
 
   return (<div style={{width: '300px', border: '1px solid black', height: '200px'}} >{
     hasWallets ? (<div data-hook="wallet">
@@ -29,7 +31,7 @@ module.exports = () => {
     <button data-hook="exchange-button" onClick={() => history.push(`/exchange/${walletCurrency}`)}>
       Exchange 
     </button>
-    <History history={getWalletHistory(state)} walletCurrency={walletCurrency}/>
+    <History history={walletHistory} walletCurrency={walletCurrency}/>
     </div>) : null
   }
   </div>)

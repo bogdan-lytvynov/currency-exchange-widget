@@ -1,7 +1,7 @@
 const zipObject_ = require('lodash/zipObject')
 
 const getExchangeRatesForBase = async base => {
-  const response = await fetch(`https://api.exchangeratesapi.io/latest?symbols=USD,GBP,EUR&base=${base}`)
+  const response = await fetch(`https://api.exchangeratesapi.io/latest?base=${base}`)
   const {rates} = await response.json() 
 
   return rates

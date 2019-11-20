@@ -9,6 +9,9 @@ module.exports = exchangeWallet => {
     },
     get currency() {
       return sliderDriver.currentSlideElement.querySelector('[data-hook="currency"]').textContent
+    },
+    selectNextWallet() {
+      return sliderDriver.selectNextSlide()
     }
   }
 

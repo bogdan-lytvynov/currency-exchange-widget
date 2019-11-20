@@ -1,25 +1,28 @@
 const React = require('react')
 const {useContext, useEffect} = React
 const { useHistory, useParams } = require('react-router-dom')
+const {useSelector, useDispatch} = require('react-redux')
 const findIndex_ = require('lodash/findIndex')
 const ExchangeWalletSlider = require('./components/exchangeWalletSlider/exchangeWalletSlider.jsx')
 const ExchangeRate = require('./exchangeRate.jsx')
-const {updateExchangeRates} = require('./actions')
+const {
+  updateExchangeRates,
+  changeFromWalletIndex,
+  changeFromWallet
+} = require('./actions')
 const startExchangeRateSync = require('./startExchangeRateSync')
 const {
   storeContext,
-  selectors: {getAllWallets, getExchangeRateForPair}
+  selectors: {getAllWallets, getExchangeRateForPair, getExchangeRate}
 } = require('./store')
 
-module.exports = () => {
-  const {state, dispatch} = useContext(storeContext)
-  const wallets = getAllWallets(state)
-  const { currency } = useParams();
+module.exports = ({from, to}) => {
+  const wallets = useSelector(getAllWallets)
+  const dispatch = useDispatch()
   const history = useHistory()
-  const fromWalletIndex = findIndex_(wallets, ['currency', currency])
-  const toWalletIndex = fromWalletIndex + 1
-  const toWalletCurrency = wallets[toWalletIndex].currency
-  const exchangeRate = getExchangeRateForPair(state, currency, toWalletCurrency)
+  const exchangeRate = useSelector(getExchangeRate(from, to))
+  const fromWalletIndex = findIndex_(wallets, ['currency', from])
+  const toWalletIndex = findIndex_(wallets, ['currency', to])
 
   const updateExchangeRateOnSync = newRates => dispatch(updateExchangeRates(newRates))
   useEffect(() => startExchangeRateSync(updateExchangeRateOnSync), [])
@@ -28,11 +31,27 @@ module.exports = () => {
     <button data-hook="cancel-button" onClick={() => history.push('/')}>Cancel</button>
     {
       exchangeRate ?
-      <ExchangeRate exchangeRate={exchangeRate} fromCurrency={currency} toCurrency={toWalletCurrency}/>:
+      <ExchangeRate exchangeRate={exchangeRate} fromCurrency={from} toCurrency={to}/>:
       null
     }
-    <ExchangeWalletSlider wallets={wallets} dataHook="from-wallet" startIndex={fromWalletIndex}/>
-    <ExchangeWalletSlider wallets={wallets} dataHook="to-wallet" startIndex={toWalletIndex}/>
+    <ExchangeWalletSlider 
+      wallets={wallets}
+      dataHook="from-wallet"
+      startIndex={fromWalletIndex}
+      onChangeWallet={walletIndex => {
+        dispatch(changeFromWallet(walletIndex))
+      }}
+    />
+
+    <ExchangeWalletSlider
+      wallets={wallets}
+      dataHook="to-wallet"
+      startIndex={toWalletIndex}
+      onChangeWallet={walletIndex => {
+        //const selectedCurrency = wallets[walletIndex].currency
+        //history.push(`/exchange/${fromWallet.currency}/${selectedCurrency}`)
+      }}
+    />
   </div> 
 }
 

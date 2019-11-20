@@ -14,7 +14,7 @@ module.exports = {
     return wallet ? wallet.currency : ''
   },
 
-  getExchangeRateForPair(state, from, to) {
-    return get_(state.exchangeRates, [from, to])
+  getExchangeRate(fromWalletCurrency, toWalletCurrency) {
+    return state => get_(state.exchangeRates, [fromWalletCurrency, toWalletCurrency])
   }
 }
