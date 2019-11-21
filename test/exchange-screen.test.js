@@ -220,5 +220,183 @@ describe('Exchange screen', () => {
         expect(exchangeScreenDriver.exchangeRate).toBe('€1=£0.8500')
       })
     })
+
+  })
+
+  describe('money exchange', () => {
+    it('should show result of exchange during the exchange rate update', async () => {
+      exchangeRatesTestkit.setRatesForBase('GBP', {
+        'USD': 0.7,
+        'EUR': 0.91321
+      })
+
+      const {exchangeScreenDriver} = await setupWalletAndClickExchange({
+        wallets: [
+          {
+            balance: 15,
+            currency: 'GBP',
+            history: []
+          },
+          {
+            balance: 10,
+            currency: 'USD',
+            history: []
+          },
+          {
+            balance: 1,
+            currency: 'EUR',
+            history: []
+          }
+        ]
+      })
+
+      await eventually(() => {
+        exchangeScreenDriver.fromWallet.enterAmoutForExchange(1)
+      })
+
+      await eventually(() => {
+        expect(exchangeScreenDriver.toWallet.exchangeResult).toBe('0.7000')
+        expect(exchangeScreenDriver.toWallet.inversExchangeRate).toBe('$1=£1.4286')
+      })
+
+      exchangeRatesTestkit.setRatesForBase('GBP', {
+        'USD': 0.8501,
+        'EUR': 1
+      })
+
+      await eventually(() => {
+        expect(exchangeScreenDriver.toWallet.exchangeResult).toBe('0.8501')
+        expect(exchangeScreenDriver.toWallet.inversExchangeRate).toBe('$1=£1.1763')
+      })
+    })
+
+    it('should show result of excahnge for another wallet when it is selected', async () => {
+      exchangeRatesTestkit.setRatesForBase('USD', {
+        'EUR': 0.9,
+        'GBP': 0.7
+      })
+
+      const {exchangeScreenDriver} = await setupWalletAndClickExchange({
+        wallets: [
+          {
+            balance: 10,
+            currency: 'USD',
+            history: []
+          },
+          {
+            balance: 1,
+            currency: 'EUR',
+            history: []
+          },
+          {
+            balance: 15,
+            currency: 'GBP',
+            history: []
+          }
+        ]
+      })
+
+
+      await eventually(() => {
+        exchangeScreenDriver.fromWallet.enterAmoutForExchange(1)
+      })
+
+      await eventually(() => {
+        expect(exchangeScreenDriver.toWallet.exchangeResult).toBe('0.9000')
+        expect(exchangeScreenDriver.toWallet.inversExchangeRate).toBe('€1=$1.1111')
+      })
+
+      //select GBP
+      exchangeScreenDriver.toWallet.selectNextWallet()
+
+      await eventually(() => {
+        expect(exchangeScreenDriver.toWallet.exchangeResult).toBe('0.7000')
+        expect(exchangeScreenDriver.toWallet.inversExchangeRate).toBe('£1=$1.4286')
+      })
+    })
+
+
+    describe('', () => {
+      const originalDate = Date
+      const transactionDate = new Date('Wed Sep 01 1993')
+
+      //beforeEach(() => {
+      //  Date = class extends Date {
+      //    constructor() {
+      //      return transactionDate
+      //    }
+
+      //  }
+      //})
+
+      //afterEach(() => {
+      //  Date = originalDate
+      //})
+
+      it('should exchange money and update history', async () => {
+        exchangeRatesTestkit.setRatesForBase('USD', {
+          'EUR': 0.5,
+          'GBP': 0.7
+        })
+
+        const {exchangeScreenDriver, walletDriver} = await setupWalletAndClickExchange({
+          wallets: [
+            {
+              balance: 10,
+              currency: 'USD',
+              history: []
+            },
+            {
+              balance: 1,
+              currency: 'EUR',
+              history: []
+            },
+            {
+              balance: 15,
+              currency: 'GBP',
+              history: []
+            }
+          ]
+        })
+
+
+        await eventually(() => {
+          exchangeScreenDriver.fromWallet.enterAmoutForExchange(2)
+          exchangeScreenDriver.clickExchangeButton()
+        })
+
+        //wait for navigation to wallet page
+        await walletDriver.waitForUiToLoad()
+
+        await eventually(() => {
+          expect(walletDriver.currency).toBe('USD')
+          expect(walletDriver.balance).toBe('8')
+
+          expect(walletDriver.history.getRecords()).toEqual([
+            {
+              date: 'Wed Sep 01 1993',
+              description: 'Exchanged to EUR',
+              amount: '$2',
+              amountInForeignCurrency: '€1'
+            }
+          ])
+        })
+
+        await walletDriver.selectNextWallet()
+        await eventually(() => {
+          expect(walletDriver.currency).toBe('EUR')
+          expect(walletDriver.balance).toBe('2')
+
+          expect(walletDriver.history.getRecords().toEqual([
+            {
+              date: 'Wed Sep 01 1993',
+              description: 'Exchanged from USD',
+              amount: '€1',
+              amountOfForeignCurrency: '$2'
+            }
+          ]))
+        })
+      })
+    })
   })
 })

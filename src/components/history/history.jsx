@@ -1,9 +1,9 @@
 const React = require('react')
-const ExchangeItem = require('./exchangeItem.jsx')
+const WithdrawItem = require('./withdrawItem.jsx')
 const TopUpItem = require('./topUpItem.jsx')
 
 const itemViewMap = {
-  exchange: ExchangeItem,
+  withdraw: WithdrawItem,
   'top-up': TopUpItem
 }
 

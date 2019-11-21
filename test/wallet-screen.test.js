@@ -16,7 +16,7 @@ const setup = async ({wallets}) => {
 }
 
 describe('main screen', () => {
-  describe.only('slider with currencies', () => {
+  describe('slider with currencies', () => {
     it('should show right amount of wallets', async () => {
       const walletScreenDriver = await setup({
         wallets: [
@@ -36,6 +36,7 @@ describe('main screen', () => {
       expect(walletScreenDriver.amountOfWallets).toBe(2)
       expect(walletScreenDriver.amountOfBreadcrumbs).toBe(2)
     })
+
     it('should show next currency on swipe', async () => {
       const walletScreenDriver = await setup({
         wallets: [
@@ -66,15 +67,17 @@ describe('main screen', () => {
             balance: 30,
             history: [
               {
-                type: 'exchange',
-                fromCurrency: 'EUR',
+                type: 'withdraw',
+                toCurrency: 'EUR',
                 amount: 20,
                 amountInForeignCurrency: 10,
                 timestamp: transactionDate.getTime()
               },
               {
                 type: 'top-up',
+                fromCurrency: 'GBP',
                 amount: 10,
+                amountInForeignCurrency: 8,
                 timestamp: transactionDate.getTime()
               }
             ]
@@ -85,14 +88,15 @@ describe('main screen', () => {
       expect(walletScreenDriver.history.getRecords()).toEqual([
         {
           date: 'Wed Sep 01 1993',
-          description: 'Exchanged from EUR',
+          description: 'Exchanged to EUR',
           amount: '$20',
-          //amountOfForeignCurrency: '€10'
+          amountInForeignCurrency: '€10'
         },
         {
           date: 'Wed Sep 01 1993',
-          description: 'Top up',
-          amount: '$10'
+          description: 'Exchanged from GBP',
+          amount: '$10',
+          amountInForeignCurrency: '£8'
         }
       ])
     })
@@ -106,8 +110,8 @@ describe('main screen', () => {
             balance: 30,
             history: [
               {
-                type: 'exchange',
-                fromCurrency: 'EUR',
+                type: 'withdraw',
+                toCurrency: 'EUR',
                 amount: 20,
                 amountInForeignCurrency: 10,
                 timestamp: transactionDate.getTime()
@@ -119,8 +123,10 @@ describe('main screen', () => {
             balance: 10,
             history: [
               {
-                type: 'top-up',
-                amount: 10,
+                type: 'withdraw',
+                toCurrency: 'GBP',
+                amount: 2,
+                amountInForeignCurrency: 1,
                 timestamp: transactionDate.getTime()
               }
             ]
@@ -132,9 +138,9 @@ describe('main screen', () => {
       expect(walletScreenDriver.history.getRecords()).toEqual([
         {
           date: 'Wed Sep 01 1993',
-          description: 'Exchanged from EUR',
+          description: 'Exchanged to EUR',
           amount: '$20',
-          //amountOfForeignCurrency: '€10'
+          amountInForeignCurrency: '€10'
         }
       ])
 
@@ -146,8 +152,9 @@ describe('main screen', () => {
         expect(walletScreenDriver.history.getRecords()).toEqual([
           {
             date: 'Wed Sep 01 1993',
-            description: 'Top up',
-            amount: '€10'
+            description: 'Exchanged to GBP',
+            amount: '€2',
+            amountInForeignCurrency: '£1'
           }
         ])
       }

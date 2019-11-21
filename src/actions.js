@@ -3,11 +3,23 @@ const {
   CHANGE_WALLET,
   UPDATE_EXCHANGE_RATES,
   CHANGE_FROM_WALLET_INDEX,
-  CHANGE_TO_WALLET_INDEX
+  CHANGE_TO_WALLET_INDEX,
+  ENTER_AMOUT_FOR_EXCHANGE,
+  ADD_EXCHANGE_TRANSACTION
 } = require('./actionTypes')
 const walletsAPI = require('./walletsAPI')
 const {getAllWallets} = require('./store/selectors')
 const routes = require('./routes')
+
+const  addExchangeTransaction = ({from, to, toAmount, fromAmount}) => {
+    return {
+      type: ADD_EXCHANGE_TRANSACTION,
+      to,
+      from,
+      toAmount,
+      fromAmount
+    }
+  }
 
 module.exports = {
   loadWallets(dispatch) {
@@ -46,5 +58,25 @@ module.exports = {
     const toWalletCurrency = wallets[toWalletIndex].currency
 
     history.push(routes.exchange.toPath({from, to: toWalletCurrency}))
-  }
+  },
+
+  enterAmountForExchange(amount) {
+    return {
+      type: ENTER_AMOUT_FOR_EXCHANGE,
+      amount
+    }
+  },
+
+  exchange: ({amountForExchange, from, to, exchangeRate}) => (dispatch, getState, {history}) => {
+    dispatch(addExchangeTransaction({
+      to,
+      from, 
+      toAmount: amountForExchange * exchangeRate,
+      fromAmount: amountForExchange 
+    })) 
+
+    history.push(`/wallet/${from}`)
+  },
+
+  addExchangeTransaction
 }

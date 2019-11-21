@@ -14,18 +14,19 @@
           currency: 'USD',
           history: [
             {
-              type: 'exchange',
-              fromCurrency: 'EUR',
+              type: 'withdraw',
+              toCurrency: 'EUR',
               amount: 20,
               amountInForeignCurrency: 10,
               timestamp: transactionDate.getTime()
             },
             {
               type: 'top-up',
+              fromCurrency: 'GBP',
               amount: 10,
+              amountInForeignCurrency: 5,
               timestamp: transactionDate.getTime()
             }
-
           ]
         },
         {

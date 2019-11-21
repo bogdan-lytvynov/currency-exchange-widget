@@ -16,5 +16,9 @@ module.exports = {
 
   getExchangeRate(fromWalletCurrency, toWalletCurrency) {
     return state => get_(state.exchangeRates, [fromWalletCurrency, toWalletCurrency])
+  },
+
+  getAmountForExchange(state) {
+    return state.amoutForExchange
   }
 }

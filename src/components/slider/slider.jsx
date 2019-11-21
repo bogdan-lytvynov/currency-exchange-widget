@@ -12,7 +12,8 @@ const EmblaCarouselComponent = ({
   dataHook,
   children,
   onChangeSlide=noop_,
-  startIndex=0
+  startIndex=0,
+  rightPan
 }) => {
   const [embla, setEmbla] = useState(null)
   const [selectedSlideIndex, setSelectedSlideIndex] = useState(startIndex)
@@ -41,10 +42,14 @@ const EmblaCarouselComponent = ({
           <div className='slider__container'>
           {children}
           </div>
+        <div className="right-pan">
+        { rightPan } 
+        </div>
           </EmblaCarouselReact>
 
+
           <div className='slider__breadcrubs'>{
-            range_(0, children.length).map(index => (
+            range_(0, (Array.isArray(children[0]) ? children[0] : children) .length).map(index => (
               <div key={index} onClick={()=>scrollTo(index)} className={
                 classnames({
                   'slider__breadcrub': true,

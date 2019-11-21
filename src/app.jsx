@@ -26,7 +26,8 @@ module.exports = ({history}) => {
   })
   return <Router history={history}> 
     <Switch>
-      <Route exact path="/">
+      <Redirect exact from="/" to="/wallet/USD"/>
+      <Route exact path="/wallet/:currency">
         <WalletsScreen/>
       </Route>
   

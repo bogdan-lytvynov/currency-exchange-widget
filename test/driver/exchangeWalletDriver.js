@@ -1,4 +1,5 @@
 const createSliderDriver = require('./sliderDriver')
+const simulateEvent = require('./simulateEvent')
 
 module.exports = exchangeWallet => {
   const sliderDriver = createSliderDriver(exchangeWallet)
