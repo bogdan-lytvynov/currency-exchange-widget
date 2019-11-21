@@ -6,24 +6,27 @@ const eventually = require('./eventually')
 const walletApiTestkit = require('./walletApiTestkit')
 const {currency} = require('./constants')
 const createExchangeRatesTestkit = require('./exchangeRatesTestkit')
+const { createBrowserHistory } = require('history');
 
-const setupWalletAndClickExchange = async ({wallets}) => {
-  walletApiTestkit.createWallets(wallets)
-  render(document.getElementById('mount-point'))
-
-  const walletDriver = createWalletScreenDriver(document.getElementById('mount-point'))
-  await walletDriver.waitForUiToLoad()
-
-  walletDriver.clickExchangeButton()
-
-  const exchangeScreenDriver = createExchangeScreenDriver(document.getElementById('mount-point'))
-  await exchangeScreenDriver.waitForUiToLoad()
-
-  return {exchangeScreenDriver, walletDriver}
-}
 
 describe('Exchange screen', () => {
   const exchangeRatesTestkit = createExchangeRatesTestkit()
+  const history = createBrowserHistory()
+
+  const setupWalletAndClickExchange = async ({wallets}) => {
+    walletApiTestkit.createWallets(wallets)
+    render(document.getElementById('mount-point'), history)
+
+    const walletDriver = createWalletScreenDriver(document.getElementById('mount-point'))
+    await walletDriver.waitForUiToLoad()
+
+    walletDriver.clickExchangeButton()
+
+    const exchangeScreenDriver = createExchangeScreenDriver(document.getElementById('mount-point'))
+    await exchangeScreenDriver.waitForUiToLoad()
+
+    return {exchangeScreenDriver, walletDriver}
+  }
 
   beforeAll(() => {
     exchangeRatesTestkit.startIntercepting()
@@ -31,6 +34,10 @@ describe('Exchange screen', () => {
   
   afterAll(() => {
     exchangeRatesTestkit.stopIntercepting()
+  })
+
+  beforeEach(() => {
+    history.push('/')
   })
 
   afterEach(() => exchangeRatesTestkit.reset())
@@ -56,9 +63,11 @@ describe('Exchange screen', () => {
     //wait for navigation to wallet page
     await walletDriver.waitForUiToLoad()
 
-    expect(walletDriver.balance).toBe('10')
-    expect(walletDriver.currency).toBe('USD')
-    expect(walletDriver.history.getRecords()).toEqual([])
+    await eventually(() => {
+      expect(walletDriver.balance).toBe('10')
+      expect(walletDriver.currency).toBe('USD')
+      expect(walletDriver.history.getRecords()).toEqual([])
+    })
   })
 
   it('should show default pair of wallets: from selected wallet to USD', async () => {
@@ -91,7 +100,7 @@ describe('Exchange screen', () => {
     })
   })
 
-  it('should show set default to wallet to EUR if exchanging USD',async () => {
+  it('should set default to wallet to EUR if exchanging USD',async () => {
     const {exchangeScreenDriver} = await setupWalletAndClickExchange({
       wallets: [
         {
@@ -114,7 +123,7 @@ describe('Exchange screen', () => {
 
     await eventually(() => {
       expect(exchangeScreenDriver.fromWallet.currency).toBe('USD')
-      expect(exchangeScreenDriver.fromWallet.balance).toBe('You have  $10')
+      expect(exchangeScreenDriver.fromWallet.balance).toBe('You have $10')
 
       expect(exchangeScreenDriver.toWallet.currency).toBe('EUR')
       expect(exchangeScreenDriver.toWallet.balance).toBe('You have €1')

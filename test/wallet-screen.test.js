@@ -52,11 +52,9 @@ describe('main screen', () => {
         ]
       })
       
-      expect(walletScreenDriver.balance).toBe('2')
+      await eventually(() => expect(walletScreenDriver.balance).toBe('2'))
       walletScreenDriver.selectNextWallet()
-      await eventually(() => {
-        expect(walletScreenDriver.balance).toBe('1')
-      })
+      await eventually(() => expect(walletScreenDriver.balance).toBe('1'))
     })
 
     it('should show history', async () => {

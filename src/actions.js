@@ -30,19 +30,21 @@ module.exports = {
     }
   },
 
-  changeFromWallet: walletIndex => (dispatch, getState, {history}) => {
+  changeFromWallet: fromWalletIndex => (dispatch, getState, {history}) => {
     const state = getState()
     const wallets = getAllWallets(state)
-    const fromWalletCurrency = wallets[walletIndex].currency
+    const fromWalletCurrency = wallets[fromWalletIndex].currency
     const {params: {to}} = routes.exchange.match(history.location.pathname)
 
     history.push(routes.exchange.toPath({from: fromWalletCurrency, to}))
   },
 
-  changeToWalletIndex(index) {
-    return {
-      type: CHANGE_TO_WALLET_INDEX,
-      toWalletIndex: index
-    }
+  changeToWallet: toWalletIndex => (dispatch, getState, {history}) => {
+    const state = getState()
+    const {params: {from}} = routes.exchange.match(history.location.pathname)
+    const wallets = getAllWallets(state)
+    const toWalletCurrency = wallets[toWalletIndex].currency
+
+    history.push(routes.exchange.toPath({from, to: toWalletCurrency}))
   }
 }

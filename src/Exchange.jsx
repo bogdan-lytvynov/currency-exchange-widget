@@ -8,7 +8,8 @@ const ExchangeRate = require('./exchangeRate.jsx')
 const {
   updateExchangeRates,
   changeFromWalletIndex,
-  changeFromWallet
+  changeFromWallet,
+  changeToWallet
 } = require('./actions')
 const startExchangeRateSync = require('./startExchangeRateSync')
 const {
@@ -47,9 +48,8 @@ module.exports = ({from, to}) => {
       wallets={wallets}
       dataHook="to-wallet"
       startIndex={toWalletIndex}
-      onChangeWallet={walletIndex => {
-        //const selectedCurrency = wallets[walletIndex].currency
-        //history.push(`/exchange/${fromWallet.currency}/${selectedCurrency}`)
+      onChangeWallet={toWalletIndex => {
+        dispatch(changeToWallet(toWalletIndex))
       }}
     />
   </div> 

@@ -4,7 +4,6 @@ const { unmountComponentAtNode } = require('react-dom')
 global.fetch = require('node-fetch')
 
 beforeEach(() => {
-  window.history.pushState({}, 'refresh', '/')
   const newBody = document.createElement('body')
   document.body = newBody
 
