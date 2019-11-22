@@ -1,3 +1,4 @@
+require('./history.css')
 const React = require('react')
 const WithdrawItem = require('./withdrawItem.jsx')
 const TopUpItem = require('./topUpItem.jsx')

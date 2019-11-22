@@ -1,0 +1,33 @@
+.history {
+  margin: 30px 0 0 0;
+}
+
+.history__item {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  margin: 0 0 15px 0;
+}
+
+.history__item-description {
+  font-size: 23px;
+}
+
+.history__item-amount {
+  font-size: 23px;
+}
+
+.history__item-date {
+  font-size: 14px;
+}
+
+.history__item-amount-in-foreign-currency {
+  font-size: 14px;
+}
+
+.history__item--top-up .history__item-amount:before {
+  content: '+' 
+}
+
+.history__item--withdraw .history__item-amount:before {
+  content: '-'
+}

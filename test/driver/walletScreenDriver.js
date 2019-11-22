@@ -11,7 +11,7 @@ module.exports = walletElement => {
   return {
     async waitForUiToLoad() {
       await eventually(() => {
-        if (!document.querySelector('[data-hook=wallet]')) {
+        if (!document.querySelector('[data-hook=wallets]')) {
           throw 'Wallet has not been found'
         }
       })

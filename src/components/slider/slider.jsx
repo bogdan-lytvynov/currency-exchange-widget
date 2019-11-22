@@ -13,7 +13,8 @@ const EmblaCarouselComponent = ({
   children,
   onChangeSlide=noop_,
   startIndex=0,
-  rightPan
+  rightPan,
+  className
 }) => {
   const [embla, setEmbla] = useState(null)
   const [selectedSlideIndex, setSelectedSlideIndex] = useState(startIndex)
@@ -31,7 +32,7 @@ const EmblaCarouselComponent = ({
   const scrollTo = index => embla.scrollTo(index)
 
   return (
-    <div className='slider' data-hook={dataHook}>{
+    <div className={classnames('slider', className)} data-hook={dataHook}>{
       children.length > 0 ? (
       <>
         <EmblaCarouselReact
