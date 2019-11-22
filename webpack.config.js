@@ -18,6 +18,22 @@ module.exports = {
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.svg$/,
+        exclude: /node_modules/,
+        use: [
+          "babel-loader",
+          {
+            loader: "react-svg-loader", // 'react-svg'
+            query: {
+              svgo: {
+                pretty: true,
+                plugins: [{ removeStyleElement: true }]
+              }
+            }
+          }
+        ]
       }
     ]
   },

@@ -10,5 +10,6 @@ module.exports = {
   },
   "moduleNameMapper": {
     "\\.css": "<rootDir>/test/css.stub.js",
+    "\\.svg": "<rootDir>/test/svg.stub.js",
   }
 };

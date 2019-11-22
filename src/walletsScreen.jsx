@@ -9,6 +9,7 @@ const {
   selectors: {getAllWallets, getWalletHistory, getWalletCurrency}
 } = require('./store')
 const {changeWallet} = require('./actions')
+const ExchangeButton = require('./components/exchangeButton/exchangeButton.jsx')
 
 module.exports = () => {
   const wallets = useSelector(getAllWallets)
@@ -17,6 +18,7 @@ module.exports = () => {
   const history = useHistory()
   const walletHistory = useSelector(getWalletHistory)
   const dispatch = useDispatch()
+  const goToExchangeScreen = () => history.push(`/exchange/${walletCurrency}`)
 
   return (<div style={{width: '300px', border: '1px solid black', height: '200px'}} >{
     hasWallets ? (<div data-hook="wallet">
@@ -28,9 +30,7 @@ module.exports = () => {
       )
     }
     </Slider>
-    <button data-hook="exchange-button" onClick={() => history.push(`/exchange/${walletCurrency}`)}>
-      Exchange 
-    </button>
+    <ExchangeButton dataHook="exchange-button"  onClick={goToExchangeScreen}/>
     <History history={walletHistory} walletCurrency={walletCurrency}/>
     </div>) : null
   }
