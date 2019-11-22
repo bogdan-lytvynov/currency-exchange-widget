@@ -7,7 +7,7 @@ const {
   Redirect
 } = require('react-router-dom');
 const { Router } = require('react-router')
-const WalletsScreen = require('./walletsScreen.jsx')
+const WalletsScreen = require('./walletsScreen/walletsScreen.jsx')
 const ExchangeScreen = require('./exchangeScreen.jsx')
 const {
   storeContext,
