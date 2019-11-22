@@ -374,7 +374,7 @@ describe('Exchange screen', () => {
 
           expect(walletDriver.history.getRecords()).toEqual([
             {
-              date: 'Wed Sep 01 1993',
+              date: new Date().toDateString(),
               description: 'Exchanged to EUR',
               amount: '$2',
               amountInForeignCurrency: '€1'
@@ -387,14 +387,14 @@ describe('Exchange screen', () => {
           expect(walletDriver.currency).toBe('EUR')
           expect(walletDriver.balance).toBe('2')
 
-          expect(walletDriver.history.getRecords().toEqual([
+          expect(walletDriver.history.getRecords()).toEqual([
             {
-              date: 'Wed Sep 01 1993',
+              date: new Date().toDateString(),
               description: 'Exchanged from USD',
               amount: '€1',
-              amountOfForeignCurrency: '$2'
+              amountInForeignCurrency: '$2'
             }
-          ]))
+          ])
         })
       })
     })
