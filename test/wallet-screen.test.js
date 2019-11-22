@@ -1,8 +1,8 @@
 require('./prepareEnvironment')
 const render = require('../src/render.jsx')
 const createWalletScreenDriver = require('./driver/walletScreenDriver')
-const eventually = require('./eventually')
 const walletApiTestkit = require('./walletApiTestkit')
+const eventually = require('./eventually')
 const {currency} = require('./constants')
 
 const setup = async ({wallets}) => {
@@ -37,6 +37,25 @@ describe('main screen', () => {
       expect(walletScreenDriver.amountOfBreadcrumbs).toBe(2)
     })
 
+    it('should show round balance in the wallet', async () => {
+      const walletScreenDriver = await setup({
+        wallets: [
+          {
+            currency: 'USD',
+            balance: 2.22122,
+            history: []
+          },
+          {
+            currency: 'GBP',
+            balance: 1,
+            history: []
+          }
+        ]
+      })
+      
+      await eventually(() => expect(walletScreenDriver.balance).toBe('$2.22'))
+    })
+
     it('should show next currency on swipe', async () => {
       const walletScreenDriver = await setup({
         wallets: [
@@ -53,9 +72,9 @@ describe('main screen', () => {
         ]
       })
       
-      await eventually(() => expect(walletScreenDriver.balance).toBe('2'))
+      await eventually(() => expect(walletScreenDriver.balance).toBe('$2.00'))
       walletScreenDriver.selectNextWallet()
-      await eventually(() => expect(walletScreenDriver.balance).toBe('1'))
+      await eventually(() => expect(walletScreenDriver.balance).toBe('£1.00'))
     })
 
     it('should show history', async () => {

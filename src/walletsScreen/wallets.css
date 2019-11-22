@@ -1,0 +1,17 @@
+.wallets {
+  display: flex;
+  flex-direction: column;
+}
+
+.wallet__slider {
+  height: 20vh;
+}
+
+.wallet__exchange-button {
+  align-self: center;
+  margin: 45px 0 0 0;
+}
+
+.wallet__balance {
+  font-size: 30px;
+}

@@ -64,7 +64,7 @@ describe('Exchange screen', () => {
     await walletDriver.waitForUiToLoad()
 
     await eventually(() => {
-      expect(walletDriver.balance).toBe('10')
+      expect(walletDriver.balance).toBe('$10.00')
       expect(walletDriver.currency).toBe('USD')
       expect(walletDriver.history.getRecords()).toEqual([])
     })
@@ -320,19 +320,6 @@ describe('Exchange screen', () => {
       const originalDate = Date
       const transactionDate = new Date('Wed Sep 01 1993')
 
-      //beforeEach(() => {
-      //  Date = class extends Date {
-      //    constructor() {
-      //      return transactionDate
-      //    }
-
-      //  }
-      //})
-
-      //afterEach(() => {
-      //  Date = originalDate
-      //})
-
       it('should exchange money and update history', async () => {
         exchangeRatesTestkit.setRatesForBase('USD', {
           'EUR': 0.5,
@@ -370,7 +357,7 @@ describe('Exchange screen', () => {
 
         await eventually(() => {
           expect(walletDriver.currency).toBe('USD')
-          expect(walletDriver.balance).toBe('8')
+          expect(walletDriver.balance).toBe('$8.00')
 
           expect(walletDriver.history.getRecords()).toEqual([
             {
@@ -385,7 +372,7 @@ describe('Exchange screen', () => {
         await walletDriver.selectNextWallet()
         await eventually(() => {
           expect(walletDriver.currency).toBe('EUR')
-          expect(walletDriver.balance).toBe('2')
+          expect(walletDriver.balance).toBe('€2.00')
 
           expect(walletDriver.history.getRecords()).toEqual([
             {
