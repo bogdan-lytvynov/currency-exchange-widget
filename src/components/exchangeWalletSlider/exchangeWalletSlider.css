@@ -1,4 +1,14 @@
-.right-pan {
-  position: absolute;
-  right: 0;
+.exchange-wallet-slider__slide{
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.exchange-wallet-slider .slider__slide {
+  align-items: flex-start;
+}
+
+.exchange-wallet-slider .slider__right-pan {
 }

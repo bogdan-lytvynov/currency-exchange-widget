@@ -40,3 +40,16 @@
 .slider__breadcrub--selected {
   background-color: #755454;
 }
+
+.slider__right-pan {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: white;
+  align-items: center;
+}

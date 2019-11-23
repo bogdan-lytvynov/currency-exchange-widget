@@ -1,3 +1,4 @@
+require('./exchange.css')
 const React = require('react')
 const {useContext, useEffect} = React
 const { useHistory, useParams } = require('react-router-dom')
@@ -40,13 +41,14 @@ module.exports = ({from, to}) => {
 
   return <div data-hook="exchange" className="exchange">
     <button className="exchange__cancel-button" data-hook="cancel-button" onClick={() => history.push('/')}>Cancel</button>
-    <button className="exchange__exchange-button" data-hook="exchange-button" onClick={exchangeOnClick}>Exchange</button>
     {
       exchangeRate ?
-      <ExchangeRate exchangeRate={exchangeRate} fromCurrency={from} toCurrency={to} dataHook="exchange-rate"/>:
+      <ExchangeRate exchangeRate={exchangeRate} fromCurrency={from} toCurrency={to} dataHook="exchange-rate" className="exchange__exchange-rate"/>:
       null
     }
+    <button className="exchange__exchange-button" data-hook="exchange-button" onClick={exchangeOnClick}>Exchange</button>
     <ExchangeWalletSlider
+      className="exchange__from"
       wallets={wallets}
       dataHook="from-wallet"
       startIndex={fromWalletIndex}
@@ -58,6 +60,7 @@ module.exports = ({from, to}) => {
     </ExchangeWalletSlider>
 
     <ExchangeWalletSlider
+      className="exchange__to"
       wallets={wallets}
       dataHook="to-wallet"
       startIndex={toWalletIndex}

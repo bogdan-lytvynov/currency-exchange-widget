@@ -43,10 +43,8 @@ const EmblaCarouselComponent = ({
           <div className='slider__container'>
           {children}
           </div>
-        <div className="right-pan">
-        { rightPan } 
-        </div>
-          </EmblaCarouselReact>
+          { rightPan ? (<div className="slider__right-pan"> { rightPan } </div>) : null }
+        </EmblaCarouselReact>
 
 
           <div className='slider__breadcrubs'>{

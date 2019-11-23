@@ -1,0 +1,36 @@
+.exchange {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 30px 30vh 30vh;
+  grid-template-areas: 
+    "cancel rate rate exchange"
+    "from   from from from"
+    "to     to   to   to";
+  justify-items: center;
+  align-items: center;
+}
+
+.exchange__cancel-button {
+  grid-area: cancel 
+}
+
+.exchange__exchange-rate {
+  grid-area: rate 
+}
+
+.exchange__exchange-button {
+  grid-area: exchange 
+}
+
+.exchange__from {
+  grid-area: from;
+  width: 100%;
+  height: 100%;
+}
+
+.exchange__to {
+  grid-area: to;
+  width: 100%;
+  height: 100%;
+}
+
