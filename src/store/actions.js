@@ -5,7 +5,8 @@ const {
   CHANGE_FROM_WALLET_INDEX,
   CHANGE_TO_WALLET_INDEX,
   ENTER_AMOUT_FOR_EXCHANGE,
-  ADD_EXCHANGE_TRANSACTION
+  ADD_EXCHANGE_TRANSACTION,
+  ENTER_DESIRED_EXCHANGE_RESULT
 } = require('./actionTypes')
 const {getAllWallets} = require('./selectors')
 const routes = require('../routes')
@@ -62,6 +63,13 @@ module.exports = {
   enterAmountForExchange(amount) {
     return {
       type: ENTER_AMOUT_FOR_EXCHANGE,
+      amount
+    }
+  },
+
+  enterExpectedExchangeResult(amount) {
+    return {
+      type: ENTER_DESIRED_EXCHANGE_RESULT,
       amount
     }
   },

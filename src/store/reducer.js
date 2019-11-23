@@ -5,7 +5,8 @@ const {
   CHANGE_FROM_WALLET_INDEX,
   CHANGE_TO_WALLET_INDEX,
   ENTER_AMOUT_FOR_EXCHANGE,
-  ADD_EXCHANGE_TRANSACTION
+  ADD_EXCHANGE_TRANSACTION,
+  ENTER_DESIRED_EXCHANGE_RESULT
 } = require('./actionTypes')
 const merge_ = require('lodash/merge')
 const cloneDeep_ = require('lodash/cloneDeep')
@@ -16,7 +17,8 @@ const initialState = {
   exchangeRates: {},
   fromWalletIndex: 0,
   toWalletIndex: 1,
-  amoutForExchange: null
+  amoutForExchange: null,
+  desiredExchangeAmount: null
 }
 
 const reducer = (state=initialState, action) => {
@@ -32,7 +34,15 @@ const reducer = (state=initialState, action) => {
     case CHANGE_TO_WALLET_INDEX:
       return merge_({}, state, {toWalletIndex: action.toWalletIndex})
     case ENTER_AMOUT_FOR_EXCHANGE:
-      return merge_({}, state, {amoutForExchange: action.amount})
+      return merge_({}, state, {
+        amoutForExchange: action.amount,
+        desiredExchangeAmount: null,
+      })
+    case ENTER_DESIRED_EXCHANGE_RESULT:
+      return merge_(state, {
+        desiredExchangeAmount: action.amount,
+        amoutForExchange: null
+      })
     case ADD_EXCHANGE_TRANSACTION:
       const fromWallet = state.wallets.find(({currency}) => currency === action.from)
       const toWallet = state.wallets.find(({currency}) => currency === action.to)
@@ -57,6 +67,8 @@ const reducer = (state=initialState, action) => {
       })
       
       return cloneDeep_(state)
+
+
     default:
       return initialState
   }

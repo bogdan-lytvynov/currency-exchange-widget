@@ -5,11 +5,15 @@ module.exports = walletElement => {
   const exchangeWalletDriver = creatEexchangeWalletDriver(walletElement) 
 
   const inputDriver = {
-    enterAmoutForExchange(amount) {
+    get amountForExcahnge() {
+      return walletElement.querySelector('[data-hook="amount-to-exchange-input"]').value
+    },
+
+    enterAmount(amount) {
       const inputElement = walletElement.querySelector('[data-hook="amount-to-exchange-input"]')
       inputElement.value = amount
       simulateEvent(inputElement, 'input')
-      simulateEvent(inputElement, 'keyup', {target: inputElement})
+      simulateEvent(inputElement, 'keyup')
     }
   }
 

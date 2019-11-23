@@ -6,7 +6,14 @@ module.exports = walletElement => {
 
   const outputDriver = {
     get exchangeResult() {
-      return walletElement.querySelector('[data-hook="exchange-result"]').textContent
+      return walletElement.querySelector('[data-hook="exchange-result"]').value
+    },
+
+    enterAmount(amount) {
+      const inputElement = walletElement.querySelector('[data-hook="exchange-result"]')
+      inputElement.value = amount
+      simulateEvent(inputElement, 'input')
+      simulateEvent(inputElement, 'keyup')
     },
 
     get inversExchangeRate() {

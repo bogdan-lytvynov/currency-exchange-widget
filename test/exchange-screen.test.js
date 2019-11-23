@@ -251,7 +251,7 @@ describe('Exchange screen', () => {
       })
 
       await eventually(() => {
-        exchangeScreenDriver.fromWallet.enterAmoutForExchange(1)
+        exchangeScreenDriver.fromWallet.enterAmount(1)
       })
 
       await eventually(() => {
@@ -298,7 +298,7 @@ describe('Exchange screen', () => {
 
 
       await eventually(() => {
-        exchangeScreenDriver.fromWallet.enterAmoutForExchange(1)
+        exchangeScreenDriver.fromWallet.enterAmount(1)
       })
 
       await eventually(() => {
@@ -315,8 +315,43 @@ describe('Exchange screen', () => {
       })
     })
 
+    it('should change value in "from wallet" when "to wallet" value was entered', async () => {
+      exchangeRatesTestkit.setRatesForBase('USD', {
+        'EUR': 0.9,
+        'GBP': 0.7
+      })
 
-    describe('', () => {
+      const {exchangeScreenDriver} = await setupWalletAndClickExchange({
+        wallets: [
+          {
+            balance: 10,
+            currency: 'USD',
+            history: []
+          },
+          {
+            balance: 1,
+            currency: 'EUR',
+            history: []
+          },
+          {
+            balance: 15,
+            currency: 'GBP',
+            history: []
+          }
+        ]
+      })
+
+
+      await eventually(() => {
+        exchangeScreenDriver.toWallet.enterAmount(2)
+      })
+
+      await eventually(() => {
+        expect(exchangeScreenDriver.fromWallet.amountForExcahnge).toBe('2.2222')
+      })
+    })
+
+    describe('exchange flow', () => {
       const originalDate = Date
       const transactionDate = new Date('Wed Sep 01 1993')
 
@@ -348,7 +383,7 @@ describe('Exchange screen', () => {
 
 
         await eventually(() => {
-          exchangeScreenDriver.fromWallet.enterAmoutForExchange(2)
+          exchangeScreenDriver.fromWallet.enterAmount(2)
           exchangeScreenDriver.clickExchangeButton()
         })
 

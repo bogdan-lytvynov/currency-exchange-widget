@@ -15,10 +15,14 @@ module.exports = {
   },
 
   getExchangeRate(fromWalletCurrency, toWalletCurrency) {
-    return state => get_(state.exchangeRates, [fromWalletCurrency, toWalletCurrency])
+    return state => get_(state.exchangeRates, [fromWalletCurrency, toWalletCurrency], 1)
   },
 
   getAmountForExchange(state) {
     return state.amoutForExchange
+  },
+
+  getDesiredExchangeAmount(state) {
+    return state.desiredExchangeAmount
   }
 }
