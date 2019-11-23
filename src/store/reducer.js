@@ -6,7 +6,7 @@ const {
   CHANGE_TO_WALLET_INDEX,
   ENTER_AMOUT_FOR_EXCHANGE,
   ADD_EXCHANGE_TRANSACTION
-} = require('../actionTypes')
+} = require('./actionTypes')
 const merge_ = require('lodash/merge')
 const cloneDeep_ = require('lodash/cloneDeep')
 

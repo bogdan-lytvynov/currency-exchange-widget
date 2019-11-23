@@ -8,12 +8,13 @@ const {
 } = require('react-router-dom');
 const { Router } = require('react-router')
 const WalletsScreen = require('./walletsScreen/walletsScreen.jsx')
-const ExchangeScreen = require('./exchangeScreen.jsx')
+const ExchangeScreen = require('./exchangeScreen/exchangeScreen.jsx')
 const {
-  storeContext,
-  selectors: {getAllWallets, getWalletHistory, getWalletCurrency}
+  selectors: {getAllWallets, getWalletHistory, getWalletCurrency},
+  actions: {
+    loadWallets
+  }
 } = require('./store')
-const {loadWallets} = require('./actions')
 
 module.exports = ({history}) => {
   const wallets = useSelector(getAllWallets)
@@ -21,9 +22,9 @@ module.exports = ({history}) => {
   useEffect(() => {
     const walletsAreNotLoaded = wallets.length === 0
     if (walletsAreNotLoaded) {
-      loadWallets(dispatch)
+      dispatch(loadWallets())
     }
-  })
+  }, [])
   return <Router history={history}> 
     <Switch>
       <Redirect exact from="/" to="/wallet/USD"/>

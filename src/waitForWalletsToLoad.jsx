@@ -1,7 +1,6 @@
 const React = require('react')
 const {useSelector, useDispatch} = require('react-redux')
 const {
-  storeContext,
   selectors: {getAllWallets}
 } = require('./store')
 

@@ -12,7 +12,7 @@ module.exports = exchangeScreenElement => {
   return {
     async waitForUiToLoad() {
       await eventually(() => {
-        if (!exchangeScreenElement.querySelector('[data-hook="exchange-screen"]')) {
+        if (!exchangeScreenElement.querySelector('[data-hook="exchange"]')) {
           throw Error('Exchange screen has not been found')
         }
       })

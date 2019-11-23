@@ -3,22 +3,26 @@ const {useContext, useEffect} = React
 const { useHistory, useParams } = require('react-router-dom')
 const {useSelector, useDispatch} = require('react-redux')
 const findIndex_ = require('lodash/findIndex')
-const ExchangeWalletSlider = require('./components/exchangeWalletSlider/exchangeWalletSlider.jsx')
-const InverseExchangeRate = require('./components/inverseExchangeRate/inverseExchangeRate.jsx')
-const ExchangeRate = require('./exchangeRate.jsx')
-const {
-  updateExchangeRates,
-  changeFromWalletIndex,
-  changeFromWallet,
-  changeToWallet,
-  enterAmountForExchange,
-  exchange
-} = require('./actions')
+const ExchangeWalletSlider = require('../components/exchangeWalletSlider/exchangeWalletSlider.jsx')
+const InverseExchangeRate = require('../components/inverseExchangeRate/inverseExchangeRate.jsx')
+const ExchangeRate = require('../components/exchangeRate/exchangeRate.jsx')
 const startExchangeRateSync = require('./startExchangeRateSync')
 const {
-  storeContext,
-  selectors: {getAllWallets, getExchangeRateForPair, getExchangeRate, getAmountForExchange}
-} = require('./store')
+  selectors: {
+    getAllWallets,
+    getExchangeRateForPair,
+    getExchangeRate,
+    getAmountForExchange
+  },
+  actions: {
+    updateExchangeRates,
+    changeFromWalletIndex,
+    changeFromWallet,
+    changeToWallet,
+    enterAmountForExchange,
+    exchange
+  }
+} = require('../store')
 
 module.exports = ({from, to}) => {
   const wallets = useSelector(getAllWallets)
@@ -34,12 +38,12 @@ module.exports = ({from, to}) => {
   const onKeyDownAmoutToExchange = ({target: {value}}) => dispatch(enterAmountForExchange(value))
   const exchangeOnClick = () => dispatch(exchange({amountForExchange, exchangeRate, from, to}))
 
-  return <div data-hook="exchange-screen">
-    <button data-hook="cancel-button" onClick={() => history.push('/')}>Cancel</button>
-    <button data-hook="exchange-button" onClick={exchangeOnClick}>Exchange</button>
+  return <div data-hook="exchange" className="exchange">
+    <button className="exchange__cancel-button" data-hook="cancel-button" onClick={() => history.push('/')}>Cancel</button>
+    <button className="exchange__exchange-button" data-hook="exchange-button" onClick={exchangeOnClick}>Exchange</button>
     {
       exchangeRate ?
-      <ExchangeRate exchangeRate={exchangeRate} fromCurrency={from} toCurrency={to}/>:
+      <ExchangeRate exchangeRate={exchangeRate} fromCurrency={from} toCurrency={to} dataHook="exchange-rate"/>:
       null
     }
     <ExchangeWalletSlider

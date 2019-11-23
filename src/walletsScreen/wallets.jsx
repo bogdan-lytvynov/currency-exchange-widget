@@ -3,9 +3,9 @@ const React = require('react')
 const {useSelector, useDispatch} = require('react-redux')
 const { useHistory } = require('react-router-dom')
 const {
-  selectors: {getAllWallets, getWalletHistory, getWalletCurrency}
+  selectors: {getAllWallets, getWalletHistory, getWalletCurrency},
+  actions: {changeWallet}
 } = require('../store')
-const {changeWallet} = require('../actions')
 const ExchangeButton = require('../components/exchangeButton/exchangeButton.jsx')
 const History = require('../components/history/history.jsx')
 const {Slider, Slide} = require('../components/slider')

@@ -7,9 +7,8 @@ const {
   ENTER_AMOUT_FOR_EXCHANGE,
   ADD_EXCHANGE_TRANSACTION
 } = require('./actionTypes')
-const walletsAPI = require('./walletsAPI')
-const {getAllWallets} = require('./store/selectors')
-const routes = require('./routes')
+const {getAllWallets} = require('./selectors')
+const routes = require('../routes')
 
 const  addExchangeTransaction = ({from, to, toAmount, fromAmount}) => {
     return {
@@ -22,7 +21,7 @@ const  addExchangeTransaction = ({from, to, toAmount, fromAmount}) => {
   }
 
 module.exports = {
-  loadWallets(dispatch) {
+  loadWallets: () => (dispatch, getState, {walletsAPI}) => {
     const wallets = walletsAPI.getAll()
     dispatch({
       type: LOAD_WALLETS,
