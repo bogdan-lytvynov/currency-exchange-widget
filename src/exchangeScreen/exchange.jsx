@@ -36,7 +36,7 @@ module.exports = ({from, to}) => {
 
   const updateExchangeRateOnSync = newRates => dispatch(updateExchangeRates(newRates))
   useEffect(() => startExchangeRateSync(updateExchangeRateOnSync), [])
-  const onKeyDownAmoutToExchange = ({target: {value}}) => dispatch(enterAmountForExchange(value))
+  const onKeyUpAmoutToExchange = (event) => dispatch(enterAmountForExchange(event.target.value))
   const exchangeOnClick = () => dispatch(exchange({amountForExchange, exchangeRate, from, to}))
 
   return <div data-hook="exchange" className="exchange">
@@ -56,7 +56,7 @@ module.exports = ({from, to}) => {
         dispatch(changeFromWallet(walletIndex))
       }}
     >
-      <input type="number" data-hook="amount-to-exchange-input" onKeyDown={onKeyDownAmoutToExchange}/>
+      <input type="number" data-hook="amount-to-exchange-input" onKeyUp={onKeyUpAmoutToExchange}/>
     </ExchangeWalletSlider>
 
     <ExchangeWalletSlider

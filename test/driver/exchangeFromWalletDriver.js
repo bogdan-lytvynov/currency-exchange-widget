@@ -9,7 +9,7 @@ module.exports = walletElement => {
       const inputElement = walletElement.querySelector('[data-hook="amount-to-exchange-input"]')
       inputElement.value = amount
       simulateEvent(inputElement, 'input')
-      simulateEvent(inputElement, 'keydown', {keyCode: 13})
+      simulateEvent(inputElement, 'keyup', {target: inputElement})
     }
   }
 
