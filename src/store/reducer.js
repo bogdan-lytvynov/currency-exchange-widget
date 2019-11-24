@@ -39,6 +39,7 @@ const reducer = (state=initialState, action) => {
         desiredExchangeAmount: null,
       })
     case ENTER_DESIRED_EXCHANGE_RESULT:
+      console.log('desired amount', action.amount)
       return merge_(state, {
         desiredExchangeAmount: action.amount,
         amoutForExchange: null

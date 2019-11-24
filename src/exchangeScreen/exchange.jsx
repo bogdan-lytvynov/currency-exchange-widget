@@ -61,7 +61,7 @@ module.exports = ({from, to}) => {
         dispatch(changeFromWallet(walletIndex))
       }}
     >
-      <InputOutput dataHook="amount-to-exchange-input" onType={onChangeAmoutForExchange} value={(desiredExchangeAmount / exchangeRate).toFixed(4)}/>
+      <InputOutput dataHook="amount-to-exchange-input" onType={onChangeAmoutForExchange} value={(desiredExchangeAmount / exchangeRate).toFixed(2)}/>
     </ExchangeWalletSlider>
 
     <ExchangeWalletSlider
@@ -73,7 +73,7 @@ module.exports = ({from, to}) => {
         dispatch(changeToWallet(toWalletIndex))
       }}
     >
-      <InputOutput dataHook="exchange-result" onType={onChangeOutput} value={(amountForExchange * exchangeRate).toFixed(4)}/>
+      <InputOutput dataHook="exchange-result" onType={onChangeOutput} value={(amountForExchange * exchangeRate).toFixed(2)}/>
       <InverseExchangeRate exchangeRate={exchangeRate} from={from} to={to}/>
     </ExchangeWalletSlider>
   </div> 

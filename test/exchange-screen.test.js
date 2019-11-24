@@ -255,7 +255,7 @@ describe('Exchange screen', () => {
       })
 
       await eventually(() => {
-        expect(exchangeScreenDriver.toWallet.exchangeResult).toBe('0.7000')
+        expect(exchangeScreenDriver.toWallet.exchangeResult).toBe('0.70')
         expect(exchangeScreenDriver.toWallet.inversExchangeRate).toBe('$1=£1.4286')
       })
 
@@ -265,7 +265,7 @@ describe('Exchange screen', () => {
       })
 
       await eventually(() => {
-        expect(exchangeScreenDriver.toWallet.exchangeResult).toBe('0.8501')
+        expect(exchangeScreenDriver.toWallet.exchangeResult).toBe('0.85')
         expect(exchangeScreenDriver.toWallet.inversExchangeRate).toBe('$1=£1.1763')
       })
     })
@@ -302,7 +302,7 @@ describe('Exchange screen', () => {
       })
 
       await eventually(() => {
-        expect(exchangeScreenDriver.toWallet.exchangeResult).toBe('0.9000')
+        expect(exchangeScreenDriver.toWallet.exchangeResult).toBe('0.90')
         expect(exchangeScreenDriver.toWallet.inversExchangeRate).toBe('€1=$1.1111')
       })
 
@@ -310,7 +310,7 @@ describe('Exchange screen', () => {
       exchangeScreenDriver.toWallet.selectNextWallet()
 
       await eventually(() => {
-        expect(exchangeScreenDriver.toWallet.exchangeResult).toBe('0.7000')
+        expect(exchangeScreenDriver.toWallet.exchangeResult).toBe('0.70')
         expect(exchangeScreenDriver.toWallet.inversExchangeRate).toBe('£1=$1.4286')
       })
     })
@@ -347,7 +347,40 @@ describe('Exchange screen', () => {
       })
 
       await eventually(() => {
-        expect(exchangeScreenDriver.fromWallet.amountForExcahnge).toBe('2.2222')
+        expect(exchangeScreenDriver.fromWallet.amountForExcahnge).toBe('2.22')
+      })
+    })
+
+    it('should let to enter only 2 digits', async () => {
+      exchangeRatesTestkit.setRatesForBase('USD', {
+        'EUR': 0.9,
+        'GBP': 0.7
+      })
+
+      const {exchangeScreenDriver} = await setupWalletAndClickExchange({
+        wallets: [
+          {
+            balance: 10,
+            currency: 'USD',
+            history: []
+          },
+          {
+            balance: 1,
+            currency: 'EUR',
+            history: []
+          }
+        ]
+      })
+
+
+      await eventually(() => {
+        exchangeScreenDriver.fromWallet.enterAmount(2.334433)
+        expect(exchangeScreenDriver.fromWallet.amountForExcahnge).toBe('2.33')
+      })
+
+      await eventually(() => {
+        exchangeScreenDriver.fromWallet.enterAmount(1.434343)
+        expect(exchangeScreenDriver.fromWallet.amountForExcahnge).toBe('1.43')
       })
     })
 
