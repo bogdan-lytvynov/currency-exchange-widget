@@ -12,6 +12,9 @@ module.exports = walletElement => {
     enterAmount(amount) {
       const inputElement = walletElement.querySelector('[data-hook="amount-to-exchange-input"]')
       
+      //hack but looks like jsdom does't care about blur of focued element when you focus another input
+      simulateEvent(document.activeElement, 'blur')
+      simulateEvent(inputElement, 'focus')
       inputElement.value = amount 
       simulateEvent(inputElement, 'input')
     }

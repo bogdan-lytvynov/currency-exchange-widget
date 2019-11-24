@@ -2,6 +2,7 @@ require('./wallets.css')
 const React = require('react')
 const {useSelector, useDispatch} = require('react-redux')
 const { useHistory } = require('react-router-dom')
+const findIndex_ = require('lodash/findIndex')
 const {
   selectors: {getAllWallets, getWalletHistory, getWalletCurrency},
   actions: {changeWallet}
@@ -11,18 +12,19 @@ const History = require('../components/history/history.jsx')
 const {Slider, Slide} = require('../components/slider')
 const getCurrencySymbol = require('../getCurrencySymbol')
 
-module.exports = () => {
+module.exports = ({currency}) => {
   const wallets = useSelector(getAllWallets)
-  const walletCurrency = useSelector(getWalletCurrency)
+  const selectedWalletIndex = findIndex_(wallets, ['currency', currency])
   const history = useHistory()
-  const walletHistory = useSelector(getWalletHistory)
+  const walletHistory = wallets[selectedWalletIndex].history
   const dispatch = useDispatch()
-  const goToExchangeScreen = () => history.push(`/exchange/${walletCurrency}`)
+  const goToExchangeScreen = () => history.push(`/exchange/${currency}`)
   const onChangeSlide = (index) => dispatch(changeWallet(index))
 
   return (
     <div className="wallets" data-hook="wallets">
       <Slider loop={true} 
+      startIndex={selectedWalletIndex}
       className="wallet__slider"
       dataHook="wallets-slider"
       onChangeSlide={onChangeSlide}>{
@@ -34,7 +36,7 @@ module.exports = () => {
       }
       </Slider>
       <ExchangeButton dataHook="exchange-button" className="wallet__exchange-button" onClick={goToExchangeScreen}/>
-      <History history={walletHistory} walletCurrency={walletCurrency}/>
+      <History history={walletHistory} walletCurrency={currency}/>
     </div>
   )
 }

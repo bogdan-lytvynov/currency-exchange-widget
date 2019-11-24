@@ -29,12 +29,12 @@ module.exports = {
       wallets
     })
   },
-  changeWallet(index) {
-    return {
-      type: CHANGE_WALLET,
-      newWalletIndex: index
-    }
+  changeWallet: (index) => (dispatch, getState, {history}) => {
+    const wallets = getAllWallets(getState())
+    const selectedWalletCurrency = wallets[index].currency
+    history.push(`/wallet/${selectedWalletCurrency}`)
   },
+
   updateExchangeRates(rates) {
     return {
       type: UPDATE_EXCHANGE_RATES,

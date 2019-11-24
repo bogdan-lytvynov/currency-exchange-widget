@@ -1,13 +1,15 @@
 require('./prepareEnvironment')
+const { createBrowserHistory } = require('history');
 const render = require('../src/render.jsx')
 const createWalletScreenDriver = require('./driver/walletScreenDriver')
 const walletApiTestkit = require('./walletApiTestkit')
 const eventually = require('./eventually')
 const {currency} = require('./constants')
+const history = createBrowserHistory()
 
 const setup = async ({wallets}) => {
   walletApiTestkit.createWallets(wallets)
-  render(document.getElementById('mount-point'))
+  render(document.getElementById('mount-point'), history)
 
   const driver = createWalletScreenDriver(document.getElementById('mount-point'))
   await driver.waitForUiToLoad()
@@ -16,6 +18,10 @@ const setup = async ({wallets}) => {
 }
 
 describe('main screen', () => {
+  beforeEach(() => {
+    history.push('/')
+  })
+
   describe('slider with currencies', () => {
     it('should show right amount of wallets', async () => {
       const walletScreenDriver = await setup({
@@ -108,14 +114,14 @@ describe('main screen', () => {
         {
           date: 'Wed Sep 01 1993',
           description: 'Exchanged to EUR',
-          amount: '$20',
-          amountInForeignCurrency: '€10'
+          amount: '$20.00',
+          amountInForeignCurrency: '€10.00'
         },
         {
           date: 'Wed Sep 01 1993',
           description: 'Exchanged from GBP',
-          amount: '$10',
-          amountInForeignCurrency: '£8'
+          amount: '$10.00',
+          amountInForeignCurrency: '£8.00'
         }
       ])
     })
@@ -158,8 +164,8 @@ describe('main screen', () => {
         {
           date: 'Wed Sep 01 1993',
           description: 'Exchanged to EUR',
-          amount: '$20',
-          amountInForeignCurrency: '€10'
+          amount: '$20.00',
+          amountInForeignCurrency: '€10.00'
         }
       ])
 
@@ -172,8 +178,8 @@ describe('main screen', () => {
           {
             date: 'Wed Sep 01 1993',
             description: 'Exchanged to GBP',
-            amount: '€2',
-            amountInForeignCurrency: '£1'
+            amount: '€2.00',
+            amountInForeignCurrency: '£1.00'
           }
         ])
       }

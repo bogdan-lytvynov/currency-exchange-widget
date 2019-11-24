@@ -15,6 +15,8 @@ describe('Exchange screen', () => {
 
   const setupWalletAndClickExchange = async ({wallets}) => {
     walletApiTestkit.createWallets(wallets)
+    //start from the first wallet
+    history.push(`/wallet/${wallets[0].currency}`)
     render(document.getElementById('mount-point'), history)
 
     const walletDriver = createWalletScreenDriver(document.getElementById('mount-point'))
@@ -93,10 +95,10 @@ describe('Exchange screen', () => {
 
     await eventually(() => {
       expect(exchangeScreenDriver.fromWallet.currency).toBe('GBP')
-      expect(exchangeScreenDriver.fromWallet.balance).toBe('You have £15')
+      expect(exchangeScreenDriver.fromWallet.balance).toBe('You have £15.00')
 
       expect(exchangeScreenDriver.toWallet.currency).toBe('USD')
-      expect(exchangeScreenDriver.toWallet.balance).toBe('You have $1')
+      expect(exchangeScreenDriver.toWallet.balance).toBe('You have $1.00')
     })
   })
 
@@ -123,10 +125,10 @@ describe('Exchange screen', () => {
 
     await eventually(() => {
       expect(exchangeScreenDriver.fromWallet.currency).toBe('USD')
-      expect(exchangeScreenDriver.fromWallet.balance).toBe('You have $10')
+      expect(exchangeScreenDriver.fromWallet.balance).toBe('You have $10.00')
 
       expect(exchangeScreenDriver.toWallet.currency).toBe('EUR')
-      expect(exchangeScreenDriver.toWallet.balance).toBe('You have €1')
+      expect(exchangeScreenDriver.toWallet.balance).toBe('You have €1.00')
     })
   })
 
@@ -315,7 +317,7 @@ describe('Exchange screen', () => {
       })
     })
 
-    it('should change value in "from wallet" when "to wallet" value was entered', async () => {
+    it.only('should change value in "from wallet" when "to wallet" value was entered', async () => {
       exchangeRatesTestkit.setRatesForBase('USD', {
         'EUR': 0.9,
         'GBP': 0.7
@@ -431,8 +433,8 @@ describe('Exchange screen', () => {
             {
               date: new Date().toDateString(),
               description: 'Exchanged to EUR',
-              amount: '$2',
-              amountInForeignCurrency: '€1'
+              amount: '$2.00',
+              amountInForeignCurrency: '€1.00'
             }
           ])
         })
@@ -446,8 +448,8 @@ describe('Exchange screen', () => {
             {
               date: new Date().toDateString(),
               description: 'Exchanged from USD',
-              amount: '€1',
-              amountInForeignCurrency: '$2'
+              amount: '€1.00',
+              amountInForeignCurrency: '$2.00'
             }
           ])
         })

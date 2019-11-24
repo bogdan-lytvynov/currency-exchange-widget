@@ -43,6 +43,8 @@ module.exports = ({from, to}) => {
   const onChangeAmoutForExchange = value => dispatch(enterAmountForExchange(value))
   const exchangeOnClick = () => dispatch(exchange({amountForExchange, exchangeRate, from, to}))
   const onChangeOutput = value => dispatch(enterExpectedExchangeResult(value))
+  const amountForExcahnge = desiredExchangeAmount / exchangeRate
+  const exchangeResult = amountForExchange * exchangeRate
 
   return <div data-hook="exchange" className="exchange">
     <button className="exchange__cancel-button" data-hook="cancel-button" onClick={() => history.push('/')}>Cancel</button>
@@ -61,7 +63,7 @@ module.exports = ({from, to}) => {
         dispatch(changeFromWallet(walletIndex))
       }}
     >
-      <InputOutput dataHook="amount-to-exchange-input" onType={onChangeAmoutForExchange} value={(desiredExchangeAmount / exchangeRate).toFixed(2)}/>
+      <InputOutput dataHook="amount-to-exchange-input" onType={onChangeAmoutForExchange} value={amountForExcahnge} autofocus={true}/>
     </ExchangeWalletSlider>
 
     <ExchangeWalletSlider
@@ -73,7 +75,7 @@ module.exports = ({from, to}) => {
         dispatch(changeToWallet(toWalletIndex))
       }}
     >
-      <InputOutput dataHook="exchange-result" onType={onChangeOutput} value={(amountForExchange * exchangeRate).toFixed(2)}/>
+      <InputOutput dataHook="exchange-result" onType={onChangeOutput} value={exchangeResult} />
       <InverseExchangeRate exchangeRate={exchangeRate} from={from} to={to}/>
     </ExchangeWalletSlider>
   </div> 

@@ -16,13 +16,19 @@ const correctValue = (value) => {
   return parsedValue.toFixed(2)
 }
 
-module.exports = ({value, dataHook, onType, pattern}) => {
+module.exports = ({value, dataHook, onType, autofocus}) => {
   const [isInput, setIsInput] = useState(false)
   const inputRef = useRef(null);
 
   useEffect(() => {
+    if (autofocus) {
+      inputRef.current.focus()
+    }
+  }, [])
+
+  useEffect(() => {
     if (!isInput && value) {
-      inputRef.current.value = value
+      inputRef.current.value = value.toFixed(2)
     }
   })
 
@@ -30,8 +36,6 @@ module.exports = ({value, dataHook, onType, pattern}) => {
     const value = event.target.value
     const correctedValue = correctValue(value)
 
-
-    //console.log(value, correctedValue)
     if (value !== correctedValue) {
       inputRef.current.value = correctedValue
     }

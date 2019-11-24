@@ -9,7 +9,7 @@ module.exports = ({wallets, startIndex, value, dataHook, onChangeWallet, childre
       wallets.map((wallet, index) => (<Slide key={index}>
         <div className="exchange-wallet-slider__slide">
           <div data-hook="currency">{wallet.currency}</div>
-          <div data-hook="balance">{`You have ${getCurrencySymbol(wallet.currency)}${wallet.balance}`}</div>
+          <div data-hook="balance">{`You have ${getCurrencySymbol(wallet.currency)}${wallet.balance.toFixed(2)}`}</div>
         </div>
       </Slide>))
     }
